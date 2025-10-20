@@ -34,7 +34,7 @@ nav {
 nav a {
   color: #ffffff;
   text-decoration: none;
-  margin: 0 10px;
+  margin: 0 12px;
   font-weight: 500;
   transition: color 0.3s ease;
 }
@@ -43,44 +43,62 @@ nav a:hover {
   color: #90caf9;
 }
 
-/* === MAIN CONTENT === */
+/* === MAIN === */
 main {
-  max-width: 900px;
-  margin: 120px auto 60px auto; /* header boşluğu */
-  padding: 20px;
-  background-color: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  margin-top: 120px;
+  padding: 0;
 }
 
 /* === SECTIONS === */
 section {
-  margin-bottom: 40px;
+  width: 100%;
+  background-color: #ffffff;
+  margin: 0 auto 60px auto;
+  border-radius: 20px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+  padding: 40px 80px;
+  max-width: 1100px;
 }
 
+/* === TITLES === */
 h2, h3 {
   color: #1a237e;
   border-bottom: 2px solid #1a237e;
   padding-bottom: 5px;
 }
 
-ul {
-  list-style-type: disc;
-  padding-left: 20px;
-}
-
 /* === MAPS === */
 .map {
   width: 100%;
-  height: 400px;
-  margin-top: 15px;
-  border-radius: 12px;
-  border: 2px solid #1a237e;
-  overflow: hidden;
+  height: 500px;
+  border-radius: 16px;
+  border: 3px solid #1a237e;
+  margin: 20px 0;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
 
 .map-container {
-  margin-bottom: 30px;
+  text-align: center;
+}
+
+/* === CONTACT SECTION === */
+.contact-info {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  font-size: 1.1rem;
+}
+
+.contact-info p {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.contact-info img {
+  width: 24px;
+  height: 24px;
 }
 
 /* === FOOTER === */
@@ -88,10 +106,175 @@ footer {
   text-align: center;
   background-color: #1a237e;
   color: white;
-  padding: 15px 0;
-  position: relative;
-  bottom: 0;
-  width: 100%;
-  font-size: 0.9rem;
+  padding: 20px 0;
+  font-size: 0.95rem;
+}
+/* === FADE-IN ANIMATION === */
+section {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+section.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* === ACTIVE MENU LINK === */
+nav a.active {
+  color: #90caf9;
+  font-weight: 600;
+  text-decoration: underline;
+}
+/* === FONT & TEXT === */
+body {
+  font-family: "Inter", sans-serif;
+  font-size: 18px;
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+/* === THEME TOGGLE BUTTON === */
+#theme-toggle {
+  position: absolute;
+  right: 30px;
+  top: 25px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: white;
+  transition: transform 0.3s ease;
+}
+
+#theme-toggle:hover {
+  transform: scale(1.1);
+}
+
+/* === DARK MODE STYLES === */
+body.dark-mode {
+  background-color: #121212;
+  color: #f0f0f0;
+}
+
+body.dark-mode header {
+  background-color: #0d102f;
+  box-shadow: 0 3px 10px rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode section {
+  background-color: #1c1f3b;
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode footer {
+  background-color: #0d102f;
+}
+
+body.dark-mode h2, 
+body.dark-mode h3 {
+  color: #90caf9;
+  border-color: #90caf9;
+}
+
+body.dark-mode nav a {
+  color: #e0e0e0;
+}
+
+body.dark-mode nav a.active {
+  color: #90caf9;
+}
+
+body.dark-mode .contact-info img {
+  filter: invert(1);
+}
+
+/* === CARD (SECTION) HOVER EFFECT === */
+section {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+section:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
+}
+/* === BACK TO TOP BUTTON === */
+#backToTop {
+  display: none;
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  z-index: 100;
+  background-color: #1a237e;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 50%;
+  font-size: 20px;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+#backToTop:hover {
+  background-color: #3949ab;
+  transform: scale(1.1);
+}
+/* === GENERAL LAYOUT === */
+body {
+  font-family: "Poppins", sans-serif;
+  font-size: 17px;
+  line-height: 1.8;
+  color: #e3e8f0;
+  background-color: #0d1117;
+  margin: 0;
+  padding: 0;
+}
+
+/* Section Card Style */
+section {
+  background-color: #161b22;
+  padding: 25px 30px;
+  border-radius: 16px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  margin: 25px auto;
+  max-width: 850px;
+  border: 1px solid #30363d;
+  transition: transform 0.2s ease-in-out;
+}
+
+section:hover {
+  transform: translateY(-4px);
+}
+
+/* Headings */
+h1 {
+  text-align: center;
+  color: #58a6ff;
+  font-size: 2.2em;
+  margin-top: 20px;
+}
+
+h2 {
+  color: #79c0ff;
+  border-bottom: 2px solid #30363d;
+  padding-bottom: 8px;
+  margin-bottom: 15px;
+}
+
+/* Lists */
+ul {
+  list-style-type: "• ";
+  padding-left: 20px;
+}
+
+/* Links */
+a {
+  color: #58a6ff;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
 }
 

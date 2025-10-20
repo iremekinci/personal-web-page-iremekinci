@@ -98,4 +98,31 @@ travelMap.on('singleclick', function (evt) {
     });
   });
 });
+// === TOOLTIP ON HOVER ===
+var tooltip = document.createElement("div");
+tooltip.style.position = "absolute";
+tooltip.style.background = "rgba(26,35,126,0.9)";
+tooltip.style.color = "#fff";
+tooltip.style.padding = "4px 8px";
+tooltip.style.borderRadius = "6px";
+tooltip.style.fontSize = "13px";
+tooltip.style.pointerEvents = "none";
+tooltip.style.display = "none";
+document.body.appendChild(tooltip);
+
+travelMap.on("pointermove", function (evt) {
+  var feature = travelMap.forEachFeatureAtPixel(evt.pixel, function (feature) {
+    return feature;
+  });
+
+  if (feature) {
+    var coordinate = evt.coordinate;
+    tooltip.style.left = evt.originalEvent.pageX + 10 + "px";
+    tooltip.style.top = evt.originalEvent.pageY + 10 + "px";
+    tooltip.innerHTML = feature.get("name");
+    tooltip.style.display = "block";
+  } else {
+    tooltip.style.display = "none";
+  }
+});
 
