@@ -170,4 +170,21 @@ document.getElementById("mapToggle").addEventListener("click", function() {
   // Butonun üstündeki yazıyı değiştir
   this.textContent = `🗺 ${currentBase === "OSM" ? "OpenStreetMap" : currentBase === "Toner" ? "Black & White" : "Satellite"}`;
 });
+// === KOORDİNAT PANELİ ===
 
+// Ortak bir fonksiyon: harita ve panel ID’sini parametre olarak alır
+function addCoordinatePanel(map, panelId) {
+  const panel = document.getElementById(panelId);
+
+  map.on('pointermove', function (evt) {
+    if (evt.dragging) return; // sürükleme sırasında güncelleme yapma
+    const coords = ol.proj.toLonLat(evt.coordinate);
+    const lon = coords[0].toFixed(5);
+    const lat = coords[1].toFixed(5);
+    panel.innerHTML = `📍 Longitude: ${lon} | Latitude: ${lat}`;
+  });
+}
+
+// İstanbul ve Ankara haritaları için panele bağla
+addCoordinatePanel(mapIstanbul, 'coords-istanbul');
+addCoordinatePanel(mapAnkara, 'coords-ankara');

@@ -193,3 +193,31 @@ body.dark-mode .map-toggle {
   color: #90caf9;
   border: 1px solid #90caf9;
 }
+.coord-popup {
+  position: absolute;
+  background: rgba(26, 35, 126, 0.95);
+  color: white;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+  pointer-events: none;
+  display: none;
+  transition: opacity 0.3s ease;
+}
+.coord-panel {
+  background-color: rgba(26, 35, 126, 0.9);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  text-align: center;
+  margin-top: 8px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+}
+
+body.dark-mode .coord-panel {
+  background-color: rgba(144, 202, 249, 0.15);
+  color: #90caf9;
+}
