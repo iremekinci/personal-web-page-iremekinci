@@ -125,4 +125,49 @@ travelMap.on("pointermove", function (evt) {
     tooltip.style.display = "none";
   }
 });
+// === BASE MAP LAYERS ===
+const baseLayers = {
+  "OSM": new ol.layer.Tile({
+    source: new ol.source.OSM(),
+    visible: true
+  }),
+  "Toner": new ol.layer.Tile({
+    source: new ol.source.XYZ({
+      url: "https://stamen-tiles.a.ssl.fastly.net/toner/{z}/{x}/{y}.png",
+      attributions: "Map tiles by Stamen Design, under CC BY 3.0 — Map data © OpenStreetMap contributors"
+    }),
+    visible: false
+  }),
+  "Satellite": new ol.layer.Tile({
+    source: new ol.source.XYZ({
+      attributions: "Tiles © Esri — Source: Esri, Maxar, Earthstar Geographics, and the GIS User Community",
+      url: "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
+    }),
+    visible: false
+  })
+};
+
+// === Travel Map’e katmanları ekle ===
+travelMap.addLayer(baseLayers["OSM"]);
+travelMap.addLayer(baseLayers["Toner"]);
+travelMap.addLayer(baseLayers["Satellite"]);
+
+let currentBase = "OSM";
+
+// === MAP TOGGLE BUTTON ===
+document.getElementById("mapToggle").addEventListener("click", function() {
+  // Şu anki katmanı kapat
+  baseLayers[currentBase].setVisible(false);
+
+  // Sıradakine geç
+  if (currentBase === "OSM") currentBase = "Toner";
+  else if (currentBase === "Toner") currentBase = "Satellite";
+  else currentBase = "OSM";
+
+  // Yeni katmanı göster
+  baseLayers[currentBase].setVisible(true);
+
+  // Butonun üstündeki yazıyı değiştir
+  this.textContent = `🗺 ${currentBase === "OSM" ? "OpenStreetMap" : currentBase === "Toner" ? "Black & White" : "Satellite"}`;
+});
 

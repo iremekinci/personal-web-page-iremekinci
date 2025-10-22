@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<head>
   <meta charset="utf-8">
   <title>İrem Ekinci - Personal Web Page</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -13,7 +12,6 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol/dist/ol.css">
 </head>
 
-</head>
 <body>
   <header>
     <h1>İrem Ekinci</h1>
@@ -23,19 +21,9 @@
       <a href="#hobbies">Hobbies</a> |
       <a href="#contact">Contact</a>
     </nav>
-    <header>
-  <h1>İrem Ekinci</h1>
-  <nav>
-    <a href="#home">Home</a> |
-    <a href="#education">Education</a> |
-    <a href="#hobbies">Hobbies</a> |
-    <a href="#contact">Contact</a>
-  </nav>
-
-  <button id="theme-toggle" aria-label="Toggle dark mode">🌙</button>
-</header>
-
+    <button id="theme-toggle" aria-label="Toggle dark mode">🌙</button>
   </header>
+
 
   <main>
     <!-- HOME SECTION -->
@@ -62,53 +50,72 @@
 </section>
 
 
-    <!-- EDUCATION SECTION -->
-    <section id="education">
-      <h2>Education and Skills</h2>
-      <ul>
-        <li><strong>Hacettepe University</strong> – Department of Geomatics Engineering (2021–Present)</li>
-        <li><strong>Süleyman Nazif High School</strong> – Graduated in 2020</li>
-      </ul>
+ <!-- EDUCATION SECTION -->
+<main>
+  <section id="education">
+    <h2>🎓 Education</h2>
+    <ul>
+      <li style="display: flex; align-items: center; gap: 10px;">
+        <img src="geomatic.jpg" alt="Hacettepe University Geomatics Logo" style="width:45px; height:auto; border-radius:8px;">
+        <span><strong>Hacettepe University</strong> – Department of Geomatics Engineering (2021–Present)</span>
+      </li>
+    </ul>
+  </section>
 
-      <h3>Internship Experience</h3>
-      <ul>
-        <li><strong>Reşitoğlu Engineering</strong> – Field and map surveying (Summer 2025)</li>
-        <li><strong>Küçükçekmece LIHKAB</strong> – Cadastral and property measurement (Summer 2025)</li>
-      </ul>
+  <section>
+    <h2>💼 Internship Experience</h2>
+    <ul>
+      <li><strong>Reşitoğlu Engineering</strong> – Field and map surveying (Summer 2025)</li>
+      <li><strong>Küçükçekmece LIHKAB</strong> – Cadastral and property measurement (Summer 2025)</li>
+    </ul>
+  </section>
 
-      <h3>Technical Skills</h3>
-      <ul>
-        <li>Web Development: HTML, CSS, JavaScript</li>
-        <li>Programming: Python (basic level)</li>
-        <li>GIS Software: QGIS, Netcad, AutoCAD</li>
-        <li>Web Mapping: OpenLayers, Leaflet</li>
-        <li>Spatial Data Visualization & Analysis</li>
-      </ul>
+  <section>
+    <h2>💻 Technical Skills</h2>
+    <ul>
+      <li>Web Development: HTML, CSS, JavaScript</li>
+      <li>Programming: Python (basic level)</li>
+      <li>GIS Software: QGIS, Netcad, AutoCAD</li>
+      <li>Web Mapping: OpenLayers, Leaflet</li>
+      <li>Spatial Data Visualization & Analysis</li>
+    </ul>
+  </section>
 
-      <h3>Academic Interests</h3>
-      <ul>
-        <li>Remote Sensing & Image Analysis</li>
-        <li>Geospatial Data Science</li>
-        <li>Cartographic Design & Web GIS</li>
-        <li>Urban Planning & Smart Cities</li>
-        <li>3D Mapping and Modeling</li>
-      </ul>
-    </section>
+  <section>
+    <h2>🔬 Academic Interests</h2>
+    <ul>
+      <li>Remote Sensing & Image Analysis</li>
+      <li>Geospatial Data Science</li>
+      <li>Cartographic Design & Web GIS</li>
+      <li>Urban Planning & Smart Cities</li>
+      <li>3D Mapping and Modeling</li>
+    </ul>
+  </section>
+</main>
+
 
     <!-- HOBBIES SECTION -->
     <section id="hobbies">
-      <h2>My Hobbies</h2>
-      <ul>
-        <li>🎵 Listening to music, especially <strong>Rock</strong>, <strong>R&B</strong>, <strong>K-HipHop</strong>, and <strong>Pop</strong>.</li>
-        <li>🈹 Learning new languages — interested in <strong>East Asian languages</strong> and <strong>Spanish</strong>.</li>
-        <li>⚽ Watching matches of my favorite football club.</li>
-        <li>✈️ Traveling with family and friends.</li>
-      </ul>
+  <h2>My Hobbies</h2>
+  <ul>
+    <li>🎵 Listening to music, especially <strong>Rock</strong>, <strong>R&B</strong>, <strong>K-HipHop</strong> and <strong>Pop</strong>.</li>
+    <li>🈹 Learning new languages — I’m particularly interested in <strong>East Asian languages</strong> and <strong>Spanish</strong>.</li>
+    <li>⚽ Watching the matches of the sports team I support.</li>
+    <li>✈️ Traveling with my family and friends.</li>
+  </ul>
 
-      <h3>Cities I’ve Visited</h3>
-      <p>Below is an interactive map showing the cities I’ve traveled to across Türkiye 🇹🇷.</p>
-      <div id="travel-map" class="map"></div>
-    </section>
+  <h3>Cities I’ve Visited</h3>
+  <p>Below is an interactive map showing the cities I’ve traveled to across Türkiye 🇹🇷.</p>
+
+  <div style="text-align:center; position: relative; max-width:1000px; margin:auto;">
+    <!-- 🌐 MAP STYLE TOGGLE BUTTON -->
+    <button id="mapToggle" class="map-toggle">🗺 OpenStreetMap</button>
+
+    <!-- HARİTA -->
+    <div id="travel-map" class="map"></div>
+  </div>
+</section>
+
 
 <section id="contact">
   <h2>Contact Me</h2>
@@ -167,9 +174,6 @@ window.addEventListener("scroll", () => {
   });
 });
 </script>
-
-</body>
-</html>
 <script>
 // === DARK MODE TOGGLE ===
 const toggleBtn = document.getElementById("theme-toggle");
@@ -209,3 +213,6 @@ backToTop.addEventListener("click", () => {
   window.scrollTo({ top: 0, behavior: "smooth" });
 });
 </script>
+</body>
+</html>
+
