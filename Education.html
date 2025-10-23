@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>İrem Ekinci - Eğitim</title>
+    
+    <link rel="stylesheet" href="styles.css"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    </head>
+<body>
+    <header>
+    <h1>İrem Ekinci</h1>
+    <button id="theme-toggle" class="theme-toggle-btn">🌙</button> 
+</header>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="Education.html">Education</a>
+        <a href="Hobbies.html">Hobbies</a>
+        <a href="Contact.html">Contact</a>
+    </nav>
+    
+    <main>
+        <section class="card" id="education-info">
+    <h2><i class="fas fa-graduation-cap"></i> Education</h2>
+    
+    <div class="education-item">
+        <div class="edu-photo">
+            <img src="geomatic.jpg" alt="Geomatics Engineering" class="edu-img">
+        </div>
+
+        <div class="edu-details">
+            <h3>Hacettepe University - Geomatics Engineering</h3>
+            <p>
+                2021–Present
+            </p>
+            <p>
+            </p>
+        </div>
+    </div>
+</section>
+
+        <section class="card">
+            <h2>Internship Experience</h2>
+            <ul>
+                <li>Reşitoğlu Engineering – Field and map surveying (Summer 2025)</li>
+                <li>Küçükçekmece LIHKAB – Cadastral and property measurement (Summer 2025)</li>
+            </ul>
+        </section>
+
+<section class="card">
+    <h2><i class="fas fa-briefcase"></i> Internship Experience</h2>
+    <ul>
+        <li><i class="fas fa-map-marked-alt"></i> Reşitoğlu Engineering – Field and map surveying (Summer 2025)</li>
+        <li><i class="fas fa-building"></i> Küçükçekmece LIHKAB – Cadastral and property measurement (Summer 2025)</li>
+    </ul>
+</section>
+
+<section class="card">
+    <h2><i class="fas fa-laptop-code"></i> Technical Skills</h2>
+    <ul>
+        <li><i class="fas fa-code"></i> Web Development: HTML, CSS, JavaScript</li>
+        <li><i class="fas fa-terminal"></i> Programming: Python (basic level)</li>
+        <li><i class="fas fa-globe-europe"></i> GIS Software: QGIS, Netcad, AutoCAD</li>
+        <li><i class="fas fa-map-pin"></i> Web Mapping: OpenLayers, Leaflet</li>
+        <li><i class="fas fa-chart-bar"></i> Spatial Data Visualization & Analysis</li>
+    </ul>
+</section>
+        
+    </main>
+    <script>
+    // Başa Dön butonunu al
+    let mybutton = document.getElementById("backToTopBtn");
+
+    // Kullanıcı sayfayı aşağı kaydırdıkça butonu göster/gizle
+    window.onscroll = function() {scrollFunction()};
+
+    function scrollFunction() {
+        if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
+            mybutton.style.display = "block";
+        } else {
+            mybutton.style.display = "none";
+        }
+    }
+
+    // Butona tıklandığında sayfayı en üste kaydır
+    function topFunction() {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth' // Yumuşak kaydırma animasyonu
+        });
+    }
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const cards = document.querySelectorAll('.card');
+        
+        cards.forEach((card, index) => {
+            // Her karta 0.15 saniyelik gecikme ile sırayla animasyon uygula
+            card.style.animationDelay = `${index * 0.15}s`;
+        });
+    });
+</script>
+<script>
+    // Header elementini al
+    const header = document.querySelector('header');
+    
+    // Pencere kaydırıldığında header'a 'scrolled' sınıfını ekler/kaldırır
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 0) {
+            header.classList.add('scrolled');
+        } else {
+            header.classList.remove('scrolled');
+        }
+    });
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const toggleBtn = document.getElementById('theme-toggle');
+        const body = document.body;
+
+        // 1. Kaydedilmiş tercihi yükle
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            body.classList.add('dark-mode');
+            toggleBtn.textContent = '☀️'; // Buton ikonunu Güneş yap
+        } else {
+            toggleBtn.textContent = '🌙'; // Buton ikonunu Ay yap
+        }
+
+        // 2. Buton tıklama olayını dinle
+        toggleBtn.addEventListener('click', () => {
+            if (body.classList.contains('dark-mode')) {
+                // Aydınlık moda geçiş
+                body.classList.remove('dark-mode');
+                localStorage.setItem('theme', 'light');
+                toggleBtn.textContent = '🌙';
+            } else {
+                // Karanlık moda geçiş
+                body.classList.add('dark-mode');
+                localStorage.setItem('theme', 'dark');
+                toggleBtn.textContent = '☀️';
+            }
+        });
+    });
+</script>
+<button onclick="topFunction()" id="backToTopBtn" title="Sayfa Başına Dön">
+    <i class="fas fa-arrow-up"></i> 
+</button>
+    <footer>
+        © 2025 İrem Ekinci - GMT458 Web GIS Assignment
+    </footer>
+</body>
+</html>

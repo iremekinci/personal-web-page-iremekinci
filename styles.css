@@ -1,223 +1,392 @@
-/* === GLOBAL === */
+/* ====================================
+   1. GENEL AYARLAR VE RENK PALETİ
+   ==================================== */
+/* Sabit ve Global Ayarlar */
+html {
+    scroll-behavior: smooth; /* Yumuşak kaydırma animasyonu */
+}
+
+/* Sabit header'ın içeriği kapatmasını önler */
+:target {
+    scroll-margin-top: 100px; 
+}
+
+/* LIGHT MODE ve DARK MODE Renk Değişkenleri */
+:root {
+    /* LIGHT MODE (Varsayılan) */
+    --primary-color: #2c3e50; 
+    --secondary-color: #34495e; 
+    --accent-color: #e74c3c; 
+    --text-color: #333;
+    --bg-color: #f4f7f6; 
+    --card-bg: #ffffff; 
+    --table-header-bg: #ecf0f1;
+}
+
+/* DARK MODE aktif edildiğinde değişkenleri değiştir */
+body.dark-mode {
+    --primary-color: #1a1a1a;
+    --secondary-color: #333333;
+    --accent-color: #ff5757; 
+    --text-color: #ecf0f1; 
+    --bg-color: #2c3e50; 
+    --card-bg: #34495e; 
+    --table-header-bg: #4c5a69;
+}
+
 body {
-  font-family: "Inter", sans-serif;
-  margin: 0;
-  padding: 0;
-  background-color: #f5f7fa;
-  color: #333;
-  line-height: 1.6;
-  transition: background-color 0.4s ease, color 0.4s ease;
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    background-color: var(--bg-color); 
+    color: var(--text-color); /* Metin rengini değişkenden al */
+    line-height: 1.6;
+    transition: background-color 0.5s, color 0.5s; /* Tema geçişini yumuşat */
 }
 
-/* === HEADER === */
+
+/* ====================================
+   2. HEADER VE NAVİGASYON (ANIMASYON %15)
+   ==================================== */
 header {
-  background-color: #1a237e;
-  color: #fff;
-  text-align: center;
-  padding: 20px 0;
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: 100;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
-}
-
-header h1 {
-  margin: 0;
-  font-size: 1.9rem;
+    position: relative; /* Buton konumlandırması için zorunlu */
+    background-color: var(--primary-color);
+    color: white;
+    text-align: center;
+    padding: 10px 0;
 }
 
 nav {
-  margin-top: 8px;
+    background-color: var(--primary-color);
+    padding: 10px 0;
+    border-top: 1px solid var(--secondary-color);
+    text-align: center;
 }
 
 nav a {
-  color: #fff;
-  text-decoration: none;
-  margin: 0 12px;
-  font-weight: 500;
-  transition: color 0.3s;
+    color: white;
+    text-decoration: none;
+    padding: 10px 15px;
+    margin: 0 10px;
+    border-bottom: 2px solid transparent; 
+    transition: border-bottom 0.3s ease-out, color 0.3s; 
 }
 
-nav a:hover,
-nav a.active {
-  color: #90caf9;
-  text-decoration: underline;
+/* Animasyon: Hover */
+nav a:hover {
+    color: var(--accent-color); 
+    border-bottom: 2px solid var(--accent-color); 
 }
 
-/* === THEME TOGGLE === */
-#theme-toggle {
-  position: absolute;
-  right: 25px;
-  top: 25px;
-  background: none;
-  border: none;
-  font-size: 1.5rem;
-  cursor: pointer;
-  color: white;
-  transition: transform 0.3s;
+/* Dark/Light Mode Butonu Stili */
+.theme-toggle-btn {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    background-color: transparent;
+    color: white;
+    border: 2px solid white;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 1.2em;
+    transition: background-color 0.3s, color 0.3s;
+    z-index: 100;
 }
-#theme-toggle:hover { transform: scale(1.1); }
 
-/* === MAIN LAYOUT === */
+
+/* ====================================
+   3. İÇERİK, KART VE LİSTE STİLLERİ
+   ==================================== */
 main {
-  margin-top: 120px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
+    padding: 20px;
+    max-width: 1000px;
+    margin: 20px auto;
 }
 
-section {
-  background-color: #ffffff;
-  border-radius: 20px;
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
-  padding: 40px 60px;
-  margin: 30px 0;
-  width: 90%;
-  max-width: 1000px;
-  transition: transform 0.3s, box-shadow 0.3s;
+.card {
+    background-color: var(--card-bg);
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-bottom: 20px;
 }
 
-section:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+.card ul {
+    list-style: none;
+    padding-left: 0;
+}
+.card li {
+    margin-bottom: 10px;
 }
 
-h2 {
-  color: #1a237e;
-  border-bottom: 2px solid #1a237e;
-  padding-bottom: 8px;
+.card li i {
+    color: var(--accent-color);
+    margin-right: 10px;
 }
 
-/* === MAPS === */
-.map {
-  width: 100%;
-  height: 500px;
-  border-radius: 16px;
-  margin-top: 20px;
+
+/* ====================================
+   4. EĞİTİM KARTI VE LİSTE STİLLERİ (TABLO SİLİNDİ)
+   ==================================== */
+
+/* Eğitim ve Beceriler Listesi için genel ikon stili */
+.card ul {
+    list-style: none;
+    padding-left: 0;
+}
+.card li {
+    margin-bottom: 10px;
+}
+.card li i {
+    color: var(--accent-color);
+    margin-right: 10px;
 }
 
-/* === CONTACT === */
-.contact-info p {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 1.1rem;
-}
-.contact-info img {
-  width: 24px;
+
+/* Eğitim Kartı (Resim ve Detay Yan Yana) */
+.education-item {
+    display: flex; /* İçeriği yan yana getir */
+    align-items: flex-start; /* Üstten hizala */
+    gap: 20px;
+    padding: 15px 0;
+    border-bottom: 1px solid var(--table-header-bg); /* Hafif ayırıcı çizgi */
 }
 
-/* === FOOTER === */
+.edu-photo img {
+    width: 100px; /* Görsel boyutunu ayarla */
+    height: 100px;
+    border-radius: 8px; /* Köşeleri yuvarla */
+    object-fit: cover;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.edu-details h3 {
+    margin-top: 0;
+    color: var(--primary-color);
+}
+.edu-details p {
+    margin: 5px 0;
+}
+
+/* Küçük ekranlarda (mobil) alt alta sırala */
+@media (max-width: 600px) {
+    .education-item {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+}
+
+
+/* ====================================
+   5. HARİTA VE KOORDİNAT STİLLERİ
+   ==================================== */
+.ol-map {
+    width: 100%;
+    height: 400px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    border-color: var(--secondary-color);
+}
+
+/* Temiz Koordinat Gösterim Kutucuğu (Yeni Stil) */
+.map-coord-display {
+    background-color: var(--table-header-bg); 
+    color: var(--text-color);
+    padding: 8px 15px;
+    margin-top: -10px; 
+    margin-bottom: 20px;
+    border-radius: 4px;
+    text-align: center;
+    font-size: 0.95em;
+    font-weight: 600;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+
+
+/* OpenLayers Popup Stilleri */
+.ol-popup {
+    position: absolute;
+    background-color: var(--card-bg);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid var(--secondary-color);
+    bottom: 12px;
+    left: -50px;
+    min-width: 150px;
+}
+
+/* POPUP OK ŞEKLİNİN TEMEL TANIMLARI */
+.ol-popup:after, .ol-popup:before {
+    top: 100%;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+}
+
+/* POPUP OK ŞEKLİ (İÇ KISIM) */
+.ol-popup:after {
+    border-top-color: var(--card-bg); /* Kart rengi ile aynı olmalı */
+    border-width: 10px;
+    left: 48px;
+    margin-left: -10px;
+}
+
+/* POPUP OK ŞEKLİ (DIŞ ÇİZGİ/GÖLGE) */
+.ol-popup:before {
+    border-top-color: var(--secondary-color); /* Kenarlık rengi ile aynı olmalı */
+    border-width: 11px;
+    left: 48px;
+    margin-left: -11px;
+}
+.ol-popup-closer {
+    color: var(--text-color); /* Kapatma ikonunun tema rengine uyumu */
+    /* ... diğer stiller ... */
+}
+/* ====================================
+   5.5. KOORDİNAT GÖSTERİM KUTUSU DÜZELTMESİ
+   ==================================== */
+
+/* Temiz Koordinat Gösterim Kutucuğu - Dış Kutu */
+.map-coord-display {
+    background-color: var(--table-header-bg); 
+    color: var(--text-color);
+    padding: 8px 15px;
+    margin-top: -10px; /* Haritaya yaklaştır */
+    margin-bottom: 20px;
+    border-radius: 4px;
+    
+    /* İÇERİĞİ ORTALAMA KURALLARI */
+    display: flex; 
+    justify-content: center; /* Yatayda ortala */
+    align-items: center; /* Dikeyde ortala */
+    text-align: center;
+    
+    font-size: 0.95em;
+    font-weight: 600;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* OpenLayers Metnini Tutan İç Element Stili (Mutlak Konumlandırmayı Geçersiz Kıl) */
+.custom-mouse-position-text {
+    /* OpenLayers'ın uyguladığı tüm konumlandırma kurallarını sıfırla/geçersiz kıl */
+    position: relative !important; 
+    top: auto !important;
+    left: auto !important;
+    display: block !important;
+    
+    /* Metni merkeze hizala */
+    text-align: center !important; 
+    
+    /* Tema renklerini ve arkaplanı uygula */
+    color: var(--text-color) !important; 
+    background: none !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+
+/* ====================================
+   6. BACK TO TOP BUTONU
+   =================================== */
+#backToTopBtn {
+    display: none; 
+    position: fixed; 
+    bottom: 30px; 
+    right: 30px; 
+    z-index: 99; 
+    border: none;
+    outline: none;
+    background-color: var(--accent-color); 
+    color: white;
+    cursor: pointer;
+    padding: 12px;
+    border-radius: 50%; 
+    font-size: 18px;
+    opacity: 0.9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s, opacity 0.3s;
+}
+
+#backToTopBtn:hover {
+    opacity: 1;
+}
+
+/* ====================================
+   7. FOOTER STİLİ
+   ==================================== */
 footer {
-  background-color: #1a237e;
-  color: #fff;
-  text-align: center;
-  padding: 20px 0;
+    text-align: center;
+    padding: 10px 0;
+    background-color: var(--primary-color);
+    color: #bdc3c7;
+    font-size: 0.8em;
+    margin-top: 20px;
+}
+/* Harita Katman Değiştirme Butonu Stili */
+.layer-toggle-btn {
+    float: right; /* Başlığın sağına yasla */
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.85em;
+    margin-left: 10px;
+    transition: background-color 0.3s;
 }
 
-/* === DARK MODE === */
-body.dark-mode {
-  background-color: #0d1117;
-  color: #e3e8f0;
-}
-body.dark-mode header {
-  background-color: #0d102f;
-}
-body.dark-mode section {
-  background-color: #161b22;
-  color: #fff;
-}
-body.dark-mode footer {
-  background-color: #0d102f;
-}
-body.dark-mode h2 {
-  color: #90caf9;
-  border-color: #90caf9;
-}
-body.dark-mode nav a {
-  color: #e0e0e0;
-}
-body.dark-mode nav a.active {
-  color: #90caf9;
-}
-body.dark-mode .contact-info img {
-  filter: invert(1);
-}
-/* === BACK TO TOP BUTTON === */
-#backToTop {
-  display: none;
-  position: fixed;
-  bottom: 30px;
-  right: 30px;
-  z-index: 1000;
-  background-color: #1a237e;
-  color: white;
-  border: none;
-  padding: 12px 16px;
-  border-radius: 50%;
-  font-size: 22px;
-  cursor: pointer;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-  transition: background-color 0.3s, transform 0.3s;
+.layer-toggle-btn:hover {
+    background-color: #c0392b; /* Kırmızı tonu koyulaştır */
 }
 
-#backToTop:hover {
-  background-color: #3949ab;
-  transform: scale(1.1);
+/* Aktif katman (OSM) düğmesi (uydu görünümü kapalıyken) */
+.layer-toggle-btn.active {
+    background-color: var(--primary-color);
 }
-/* === MAP TOGGLE BUTTON === */
-.map-toggle {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background-color: #1a237e;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  padding: 8px 12px;
-  font-size: 14px;
-  cursor: pointer;
-  z-index: 10;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.3);
-  transition: background-color 0.3s ease;
+/* ====================================
+   9. GİRİŞ (FADE-IN) ANİMASYONU
+   ==================================== */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px); /* Hafifçe yukarı kayarak gelme */
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
-.map-toggle:hover {
-  background-color: #3949ab;
+/* Kartlara animasyon özelliklerini ekleme */
+.card {
+    /* ... mevcut kart stilleri burada olmalı ... */
+    
+    opacity: 0; /* Animasyon başlamadan önce görünmez olsun */
+    animation: fadeIn 0.8s ease-out forwards;
+}
+/* ====================================
+   10. SCROLL GÖLGESİ
+   ==================================== */
+
+/* Header'ın sayfada sabit kalmasını sağlar */
+header {
+    position: sticky; 
+    top: 0; 
+    z-index: 100; 
+    /* ... diğer stiller ... */
+    transition: box-shadow 0.3s ease-in-out; /* Gölge geçişini yumuşat */
 }
 
-body.dark-mode .map-toggle {
-  background-color: #0d102f;
-  color: #90caf9;
-  border: 1px solid #90caf9;
-}
-.coord-popup {
-  position: absolute;
-  background: rgba(26, 35, 126, 0.95);
-  color: white;
-  padding: 10px 14px;
-  border-radius: 10px;
-  font-size: 0.9rem;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-  z-index: 1000;
-  pointer-events: none;
-  display: none;
-  transition: opacity 0.3s ease;
-}
-.coord-panel {
-  background-color: rgba(26, 35, 126, 0.9);
-  color: white;
-  padding: 8px 12px;
-  border-radius: 8px;
-  font-size: 0.95rem;
-  text-align: center;
-  margin-top: 8px;
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
-}
-
-body.dark-mode .coord-panel {
-  background-color: rgba(144, 202, 249, 0.15);
-  color: #90caf9;
+/* Sayfa kaydırıldığında header'a gölge ekle */
+header.scrolled {
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }

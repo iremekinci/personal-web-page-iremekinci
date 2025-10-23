@@ -1,222 +1,230 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
-  <meta charset="utf-8">
-  <title>İrem Ekinci - Personal Web Page</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  <!-- FONT -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-
-  <link rel="stylesheet" href="css/styles.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol/dist/ol.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>İrem Ekinci - Kişisel Web Sayfası</title>
+    
+    <link rel="stylesheet" href="styles.css"> 
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.15.1/css/ol.css" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
-
 <body>
-  <header>
+    <header>
     <h1>İrem Ekinci</h1>
+    <button id="theme-toggle" class="theme-toggle-btn">🌙</button> 
+</header>
+    
     <nav>
-      <a href="#home">Home</a> |
-      <a href="#education">Education</a> |
-      <a href="#hobbies">Hobbies</a> |
-      <a href="#contact">Contact</a>
-    </nav>
-    <button id="theme-toggle" aria-label="Toggle dark mode">🌙</button>
-  </header>
+    <a href="#about">Home</a> 
+    <a href="Education.html">Education</a> 
+    <a href="Hobbies.html">Hobbies</a> 
+    <a href="Contact.html">Contact</a> 
+</nav>
 
+    <main>
+        <section class="card" id="about">
+            <h2>About Me</h2>
+            <p>
+                Hello! I’m İrem Ekinci, a Geomatics Engineering student at Hacettepe University. I am passionate about mapping, spatial data, and innovative technologies. I enjoy combining theoretical knowledge with practical projects to solve real-world problems. I thrive in teamwork environments and excel under pressure. I am constantly learning and improving myself. 
+            </p>
+        </section>
 
-  <main>
-    <!-- HOME SECTION -->
-    <section id="home">
-  <h2>About Me</h2>
-  <p>
-    Hello! I’m <strong>İrem Ekinci</strong>, a Geomatics Engineering student at Hacettepe University. 
-    I am passionate about mapping, spatial data, and innovative technologies. 
-    I enjoy combining theoretical knowledge with practical projects to solve real-world problems. 
-    I thrive in teamwork environments and excel under pressure. 
+<section class="card" id="istanbul-map"> 
+    <h2>İstanbul
+        <button onclick="toggleSatellite('map1')" class="layer-toggle-btn" data-map-id="map1">
+            <i class="fas fa-satellite"></i> Uydu Görünümü
+        </button>
+    </h2>
+    <div id="map1" class="ol-map"></div>
+    </section>
 
-    I am constantly learning and improving myself.
-  </p>
+<section class="card" id="hacettepe-map">
+    <h2>Hacettepe University, Ankara
+        <button onclick="toggleSatellite('map2')" class="layer-toggle-btn" data-map-id="map2">
+            <i class="fas fa-satellite"></i> Uydu Görünümü
+        </button>
+    </h2>
+    <div id="map2" class="ol-map"></div>
+    </section>
+    </main>
+    <button onclick="topFunction()" id="backToTopBtn" title="Sayfa Başına Dön">
+    <i class="fas fa-arrow-up"></i> 
+</button>
+    <footer>
+        © 2025 İrem Ekinci - GMT458 Web GIS Assignment
+    </footer>
+</body>
 
-  <div class="map-container">
-    <h3>İstanbul</h3>
-    <div id="map-istanbul" class="map"></div>
-    <div id="coords-istanbul" class="coord-panel"></div>
+    <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.15.1/build/ol.js"></script>
+    
+    <script>
+    // Harita nesnelerini global olarak saklamak için
+    var mapObjects = {};
+    
+    // Harita Oluşturma Fonksiyonu
+    function createMap(mapId, coords, zoomLevel) {
+        
+        // 1. Katmanları Fonksiyonun içinde oluşturma (Global değişkenleri kullanmaktan kaçınma)
+        var osmLayer = new ol.layer.Tile({
+            source: new ol.source.OSM(),
+            visible: true,
+            title: 'OSM'
+        });
 
-  </div>
+        var satelliteLayer = new ol.layer.Tile({
+            source: new ol.source.XYZ({
+                url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+                attributions: 'Tiles © <a href="https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer">ArcGIS</a>'
+            }),
+            visible: false, // Başlangıçta gizli
+            title: 'Satellite'
+        });
 
-  <div class="map-container">
-    <h3>Hacettepe University, Ankara</h3>
-    <div id="map-ankara" class="map"></div>
-    <div id="coords-ankara" class="coord-panel"></div>
+        var map = new ol.Map({
+            target: mapId,
+            layers: [
+                osmLayer,      // Yeni oluşturulan OSM Katmanını ekle
+                satelliteLayer // Yeni oluşturulan Uydu Katmanını ekle
+            ],
+            view: new ol.View({
+                center: ol.proj.fromLonLat(coords),
+                zoom: zoomLevel
+            }),
+            controls: ol.control.defaults().extend([
+                new ol.control.MousePosition({
+                    projection: 'EPSG:4326', 
+                    coordinateFormat: function(coordinate) {
+                        return ol.coordinate.format(coordinate, '↑ Enlem: {y}, → Boylam: {x}', 4);
+                    },
+                    className: 'custom-mouse-position-text',
+                    target: document.getElementById('mouse-position-' + mapId.slice(-1)),
+                    undefinedHTML: 'Harita üzerinde geziniz...'
+                })
+            ])
+        });
+        
+        // map.set('layers', [osmLayer, satelliteLayer]); // Katmanları harita nesnesine bağlama
 
-  </div>
-</section>
-
-
- <!-- EDUCATION SECTION -->
-<main>
-  <section id="education">
-    <h2>🎓 Education</h2>
-    <ul>
-      <li style="display: flex; align-items: center; gap: 10px;">
-        <img src="geomatic.jpg" alt="Hacettepe University Geomatics Logo" style="width:45px; height:auto; border-radius:8px;">
-        <span><strong>Hacettepe University</strong> – Department of Geomatics Engineering (2021–Present)</span>
-      </li>
-    </ul>
-  </section>
-
-  <section>
-    <h2>💼 Internship Experience</h2>
-    <ul>
-      <li><strong>Reşitoğlu Engineering</strong> – Field and map surveying (Summer 2025)</li>
-      <li><strong>Küçükçekmece LIHKAB</strong> – Cadastral and property measurement (Summer 2025)</li>
-    </ul>
-  </section>
-
-  <section>
-    <h2>💻 Technical Skills</h2>
-    <ul>
-      <li>Web Development: HTML, CSS, JavaScript</li>
-      <li>Programming: Python (basic level)</li>
-      <li>GIS Software: QGIS, Netcad, AutoCAD</li>
-      <li>Web Mapping: OpenLayers, Leaflet</li>
-      <li>Spatial Data Visualization & Analysis</li>
-    </ul>
-  </section>
-
-  <section>
-    <h2>🔬 Academic Interests</h2>
-    <ul>
-      <li>Remote Sensing & Image Analysis</li>
-      <li>Geospatial Data Science</li>
-      <li>Cartographic Design & Web GIS</li>
-      <li>Urban Planning & Smart Cities</li>
-      <li>3D Mapping and Modeling</li>
-    </ul>
-  </section>
-</main>
-
-
-    <!-- HOBBIES SECTION -->
-    <section id="hobbies">
-  <h2>My Hobbies</h2>
-  <ul>
-    <li>🎵 Listening to music, especially <strong>Rock</strong>, <strong>R&B</strong>, <strong>K-HipHop</strong> and <strong>Pop</strong>.</li>
-    <li>🈹 Learning new languages — I’m particularly interested in <strong>East Asian languages</strong> and <strong>Spanish</strong>.</li>
-    <li>⚽ Watching the matches of the sports team I support.</li>
-    <li>✈️ Traveling with my family and friends.</li>
-  </ul>
-
-  <h3>Cities I’ve Visited</h3>
-  <p>Below is an interactive map showing the cities I’ve traveled to across Türkiye 🇹🇷.</p>
-
-  <div style="text-align:center; position: relative; max-width:1000px; margin:auto;">
-    <!-- 🌐 MAP STYLE TOGGLE BUTTON -->
-    <button id="mapToggle" class="map-toggle">🗺 OpenStreetMap</button>
-
-    <!-- HARİTA -->
-    <div id="travel-map" class="map"></div>
-  </div>
-</section>
-
-
-<section id="contact">
-  <h2>Contact Me</h2>
-  <div class="contact-info">
-    <p><img src="https://cdn-icons-png.flaticon.com/512/159/159832.png" alt="user"> İrem Ekinci</p>
-    <p><img src="https://cdn-icons-png.flaticon.com/512/724/724664.png" alt="phone"> +90 534 926 51 84</p>
-    <p><img src="https://cdn-icons-png.flaticon.com/512/732/732200.png" alt="mail">
-      <a href="mailto:iremekinci614@gmail.com">iremekinci614@gmail.com</a></p>
-    <p><img src="https://cdn-icons-png.flaticon.com/512/174/174857.png" alt="linkedin">
-      <a href="https://linkedin.com/in/iremekinci" target="_blank">linkedin.com/in/iremekinci</a></p>
-  </div>
-</section>
-
-
-  <footer>
-    <!-- BACK TO TOP BUTTON -->
-<button id="backToTop" title="Go to top">↑</button>
-
-    <p>© 2025 İrem Ekinci - GMT458 Web GIS Assignment</p>
-  </footer>
-
-  <script src="https://cdn.jsdelivr.net/npm/ol/dist/ol.js"></script>
-  <script src="js/map.js"></script>
-  <script>
-/* === SECTION FADE-IN EFFECT === */
-const sections = document.querySelectorAll("section");
-
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add("visible");
+        // Oluşturulan harita nesnesini ve katmanları sakla (toggleSatellite fonksiyonu için)
+        mapObjects[mapId] = { map: map, osm: osmLayer, sat: satelliteLayer };
+        
+        // Başlangıçta OSM butonunu aktif et
+        var btn = document.querySelector(`button[data-map-id="${mapId}"]`);
+        if(btn) btn.classList.add('active');
+        
+        return map;
     }
-  });
-}, { threshold: 0.2 });
 
-sections.forEach(section => observer.observe(section));
+    // Haritaları Başlat
+    var hacettepeCoords = [32.7337, 39.8665]; 
+    var istanbulCoords = [28.9784, 41.0082]; 
 
-/* === SCROLL SPY (ACTIVE MENU LINK) === */
-const navLinks = document.querySelectorAll("nav a");
+    createMap('map1', istanbulCoords, 10);
+    createMap('map2', hacettepeCoords, 14);
 
-window.addEventListener("scroll", () => {
-  let current = "";
+    // KATMAN DEĞİŞTİRME FONKSİYONU (Güncellendi)
+    function toggleSatellite(mapId) {
+        var mapData = mapObjects[mapId];
+        if (!mapData) return;
 
-  sections.forEach(section => {
-    const sectionTop = section.offsetTop - 150;
-    if (pageYOffset >= sectionTop) {
-      current = section.getAttribute("id");
+        var osm = mapData.osm;
+        var satellite = mapData.sat;
+        var btn = document.querySelector(`button[data-map-id="${mapId}"]`);
+        
+        // Görünürlük durumunu tersine çevir
+        if (satellite.getVisible()) {
+            // Uydu açıksa, OSM'ye geç
+            satellite.setVisible(false);
+            osm.setVisible(true);
+            btn.classList.add('active');
+            btn.innerHTML = '<i class="fas fa-satellite"></i> Uydu Görünümü';
+        } else {
+            // OSM açıksa, Uyduya geç
+            osm.setVisible(false);
+            satellite.setVisible(true);
+            btn.classList.remove('active');
+            btn.innerHTML = '<i class="fas fa-map"></i> OSM Görünümü';
+        }
     }
-  });
+</script>
+    <script>
+    // Başa Dön butonunu al
+    let mybutton = document.getElementById("backToTopBtn");
 
-  navLinks.forEach(link => {
-    link.classList.remove("active");
-    if (link.getAttribute("href") === `#${current}`) {
-      link.classList.add("active");
+    // Kullanıcı sayfayı aşağı kaydırdıkça butonu göster/gizle
+    window.onscroll = function() {scrollFunction()};
+
+    function scrollFunction() {
+        if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 200) {
+            mybutton.style.display = "block";
+        } else {
+            mybutton.style.display = "none";
+        }
     }
-  });
-});
+
+    // Butona tıklandığında sayfayı en üste kaydır
+    function topFunction() {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth' // Yumuşak kaydırma animasyonu
+        });
+    }
 </script>
 <script>
-// === DARK MODE TOGGLE ===
-const toggleBtn = document.getElementById("theme-toggle");
-const body = document.body;
-
-// Önceki tercih hatırlansın
-if (localStorage.getItem("theme") === "dark") {
-  body.classList.add("dark-mode");
-  toggleBtn.textContent = "☀️";
-}
-
-toggleBtn.addEventListener("click", () => {
-  body.classList.toggle("dark-mode");
-  
-  if (body.classList.contains("dark-mode")) {
-    toggleBtn.textContent = "☀️";
-    localStorage.setItem("theme", "dark");
-  } else {
-    toggleBtn.textContent = "🌙";
-    localStorage.setItem("theme", "light");
-  }
-});
+    document.addEventListener('DOMContentLoaded', function() {
+        const cards = document.querySelectorAll('.card');
+        
+        cards.forEach((card, index) => {
+            // Her karta 0.15 saniyelik gecikme ile sırayla animasyon uygula
+            card.style.animationDelay = `${index * 0.15}s`;
+        });
+    });
 </script>
 <script>
-// === BACK TO TOP BUTTON ===
-const backToTop = document.getElementById("backToTop");
+    // Header elementini al
+    const header = document.querySelector('header');
+    
+    // Pencere kaydırıldığında header'a 'scrolled' sınıfını ekler/kaldırır
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 0) {
+            header.classList.add('scrolled');
+        } else {
+            header.classList.remove('scrolled');
+        }
+    });
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const toggleBtn = document.getElementById('theme-toggle');
+        const body = document.body;
 
-window.addEventListener("scroll", () => {
-  if (window.scrollY > 400) {
-    backToTop.style.display = "block";
-  } else {
-    backToTop.style.display = "none";
-  }
-});
+        // 1. Kaydedilmiş tercihi yükle
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            body.classList.add('dark-mode');
+            toggleBtn.textContent = '☀️'; // Buton ikonunu Güneş yap
+        } else {
+            toggleBtn.textContent = '🌙'; // Buton ikonunu Ay yap
+        }
 
-backToTop.addEventListener("click", () => {
-  window.scrollTo({ top: 0, behavior: "smooth" });
-});
+        // 2. Buton tıklama olayını dinle
+        toggleBtn.addEventListener('click', () => {
+            if (body.classList.contains('dark-mode')) {
+                // Aydınlık moda geçiş
+                body.classList.remove('dark-mode');
+                localStorage.setItem('theme', 'light');
+                toggleBtn.textContent = '🌙';
+            } else {
+                // Karanlık moda geçiş
+                body.classList.add('dark-mode');
+                localStorage.setItem('theme', 'dark');
+                toggleBtn.textContent = '☀️';
+            }
+        });
+    });
+    
 </script>
 </body>
 </html>
-

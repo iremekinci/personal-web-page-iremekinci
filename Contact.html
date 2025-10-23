@@ -1,0 +1,115 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>İrem Ekinci - İletişim</title>
+    <link rel="stylesheet" href="styles.css"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    <header>
+    <h1>İrem Ekinci</h1>
+    <button id="theme-toggle" class="theme-toggle-btn">🌙</button> 
+</header>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="Education.html">Education</a>
+        <a href="Hobbies.html">Hobbies</a>
+        <a href="Contact.html">Contact</a>
+    </nav>
+    
+    <main>
+        <section class="card" id="contact-info">
+    <h2><i class="fas fa-address-card"></i> Contact Me</h2>
+    <ul>
+        <li><i class="fas fa-phone"></i> +90 534 926 51 84</li>
+        <li><i class="fas fa-envelope"></i> <a href="mailto:iremekinci614@gmail.com">iremekinci614@gmail.com</a></li>
+        <li><i class="fab fa-linkedin"></i> <a href="https://linkedin.com/in/iremekinci" target="_blank">linkedin.com/in/iremekinci</a></li>
+    </ul>
+</section>
+    </main>
+    <script>
+    // Başa Dön butonunu al
+    let mybutton = document.getElementById("backToTopBtn");
+
+    // Kullanıcı sayfayı aşağı kaydırdıkça butonu göster/gizle
+    window.onscroll = function() {scrollFunction()};
+
+    function scrollFunction() {
+        if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 200) {
+            mybutton.style.display = "block";
+        } else {
+            mybutton.style.display = "none";
+        }
+    }
+
+    // Butona tıklandığında sayfayı en üste kaydır
+    function topFunction() {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth' // Yumuşak kaydırma animasyonu
+        });
+    }
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const cards = document.querySelectorAll('.card');
+        
+        cards.forEach((card, index) => {
+            // Her karta 0.15 saniyelik gecikme ile sırayla animasyon uygula
+            card.style.animationDelay = `${index * 0.15}s`;
+        });
+    });
+</script>
+<script>
+    // Header elementini al
+    const header = document.querySelector('header');
+    
+    // Pencere kaydırıldığında header'a 'scrolled' sınıfını ekler/kaldırır
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 0) {
+            header.classList.add('scrolled');
+        } else {
+            header.classList.remove('scrolled');
+        }
+    });
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const toggleBtn = document.getElementById('theme-toggle');
+        const body = document.body;
+
+        // 1. Kaydedilmiş tercihi yükle
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            body.classList.add('dark-mode');
+            toggleBtn.textContent = '☀️'; // Buton ikonunu Güneş yap
+        } else {
+            toggleBtn.textContent = '🌙'; // Buton ikonunu Ay yap
+        }
+
+        // 2. Buton tıklama olayını dinle
+        toggleBtn.addEventListener('click', () => {
+            if (body.classList.contains('dark-mode')) {
+                // Aydınlık moda geçiş
+                body.classList.remove('dark-mode');
+                localStorage.setItem('theme', 'light');
+                toggleBtn.textContent = '🌙';
+            } else {
+                // Karanlık moda geçiş
+                body.classList.add('dark-mode');
+                localStorage.setItem('theme', 'dark');
+                toggleBtn.textContent = '☀️';
+            }
+        });
+    });
+    
+</script>
+<button onclick="topFunction()" id="backToTopBtn" title="Sayfa Başına Dön">
+    <i class="fas fa-arrow-up"></i> 
+</button>
+    <footer>
+        © 2025 İrem Ekinci - GMT458 Web GIS Assignment
+    </footer>
+    
+</body>
+</html>

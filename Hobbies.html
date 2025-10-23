@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>İrem Ekinci - Hobiler</title>
+    
+    <link rel="stylesheet" href="styles.css"> 
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.15.1/css/ol.css" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    <header>
+    <h1>İrem Ekinci</h1>
+    <button id="theme-toggle" class="theme-toggle-btn">🌙</button> 
+</header>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="Education.html">Education</a>
+        <a href="Hobbies.html">Hobbies</a>
+        <a href="Contact.html">Contact</a>
+    </nav>
+    
+    <main>
+       <section class="card">
+    <h2><i class="fas fa-star-half-alt"></i> My Hobbies</h2>
+    <ul>
+        <li><i class="fas fa-headphones"></i> Listening to music, especially **Rock, R&B, K-HipHop and Pop**.</li>
+        <li><i class="fas fa-language"></i> Learning new languages—I’m particularly interested in **East Asian languages and Spanish**.</li>
+        <li><i class="fas fa-futbol"></i> Watching the matches of the sports team I support.</li>
+        <li><i class="fas fa-plane"></i> Traveling with my family and friends.</li>
+    </ul>
+</section>
+
+        <section class="card">
+            <h2>Cities I’ve Visited</h2>
+            <p>Below is an interactive map showing the cities I've traveled to across Türkiye.</p>
+            <div id="map3" class="ol-map"></div>
+        </section>
+        <div id="popup" class="ol-popup">
+    <a href="#" id="popup-closer" class="ol-popup-closer"></a>
+    <div id="popup-content"></div>
+</div>
+    </main>
+    
+    <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.15.1/build/ol.js"></script>
+
+<script>
+    // Ziyaret edilen şehirlerin koordinatları [Boylam (Lon), Enlem (Lat)]
+    var cities = [
+        { name: 'İstanbul', coords: [28.9784, 41.0082] },
+        { name: 'Ankara', coords: [32.8597, 39.9334] },
+        { name: 'Çanakkale', coords: [26.4141, 40.1458] },
+        { name: 'Balıkesir', coords: [27.8931, 39.6553] },
+        { name: 'Edirne', coords: [26.5557, 41.6706] },
+        { name: 'Muğla', coords: [28.3638, 37.2155] },
+        { name: 'Antalya', coords: [30.7056, 36.8848] },
+        { name: 'Konya', coords: [32.4842, 37.8746] },
+        { name: 'Nevşehir', coords: [34.7144, 38.6256] },
+        { name: 'Giresun', coords: [38.3891, 40.9168] },
+        { name: 'Ordu', coords: [37.8763, 40.9788] },
+        { name: 'Tokat', coords: [36.5515, 40.3135] },
+        { name: 'Kocaeli', coords: [29.9407, 40.7656] },
+        { name: 'Trabzon', coords: [39.7167, 41.0000] }
+    ];
+
+    // Marker Stili Tanımlama (Konum İşareti)
+    var markerStyle = new ol.style.Style({
+        image: new ol.style.Icon({
+            anchor: [0.5, 1],
+            src: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="%23e74c3c" stroke="%23ffffff" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather feather-map-pin"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>',
+            scale: 1.2
+        })
+    });
+
+    // Şehirler için Marker (İşaretçi) oluşturma
+    var markers = cities.map(city => {
+        return new ol.Feature({
+            geometry: new ol.geom.Point(ol.proj.fromLonLat(city.coords)),
+            name: city.name,
+            coords: ol.proj.fromLonLat(city.coords)
+        });
+    });
+
+    // Vektör Katmanı oluşturma (Markerları tutar)
+    var vectorLayer = new ol.layer.Vector({
+        source: new ol.source.Vector({
+            features: markers
+        }),
+        style: markerStyle
+    });
+
+    // Popup elementlerini al
+    var container = document.getElementById('popup');
+    var content = document.getElementById('popup-content');
+    var closer = document.getElementById('popup-closer');
+
+    // Popup nesnesini oluştur
+    var overlay = new ol.Overlay({
+        element: container,
+        autoPan: true,
+        autoPanAnimation: {
+            duration: 250
+        }
+    });
+
+    // Haritayı oluştur (overlay eklendi)
+    var map3 = new ol.Map({
+        target: 'map3', 
+        layers: [
+            new ol.layer.Tile({
+                source: new ol.source.OSM()
+            }),
+            vectorLayer 
+        ],
+        overlays: [overlay], // Popup overlay'i haritaya eklenir
+        view: new ol.View({
+            center: ol.proj.fromLonLat([35, 39]), 
+            zoom: 6
+        })
+    });
+
+    // Closer (Kapatma) düğmesi işlevi
+    closer.onclick = function() {
+        overlay.setPosition(undefined);
+        closer.blur();
+        return false;
+    };
+
+    // Harita Tıklama Olayı (Yakınlaştırma ve Popup İşlevi)
+    map3.on('click', function (evt) {
+        var feature = map3.forEachFeatureAtPixel(evt.pixel, function (feature) {
+            return feature;
+        });
+
+        if (feature && feature.get('name')) {
+            var coordinates = feature.get('coords');
+            var cityName = feature.get('name');
+            
+            // Popup içeriğini ve konumunu ayarla
+            content.innerHTML = '<b>Ziyaret Edilen Şehir:</b><br>' + cityName;
+            overlay.setPosition(coordinates);
+
+            // Harita görünümünü animasyonlu olarak ayarla
+            map3.getView().animate({
+                center: coordinates,
+                zoom: 10, 
+                duration: 500 
+            });
+            
+        } else {
+            // Marker dışında bir yere tıklandığında popup'ı kapat
+            overlay.setPosition(undefined);
+        }
+    });
+
+    // Fare imleci
+    map3.on('pointermove', function (evt) {
+        var hit = map3.forEachFeatureAtPixel(evt.pixel, function(feature) {
+            return true;
+        });
+        map3.getTargetElement().style.cursor = hit ? 'pointer' : '';
+    });
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const cards = document.querySelectorAll('.card');
+        
+        cards.forEach((card, index) => {
+            // Her karta 0.15 saniyelik gecikme ile sırayla animasyon uygula
+            card.style.animationDelay = `${index * 0.15}s`;
+        });
+    });
+</script>
+<script>
+    // Başa Dön butonunu al
+    let mybutton = document.getElementById("backToTopBtn");
+
+    // Kullanıcı sayfayı aşağı kaydırdıkça butonu göster/gizle
+    window.onscroll = function() {scrollFunction()};
+
+    function scrollFunction() {
+        if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 200) {
+            mybutton.style.display = "block";
+        } else {
+            mybutton.style.display = "none";
+        }
+    }
+
+    // Butona tıklandığında sayfayı en üste kaydır
+    function topFunction() {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth' // Yumuşak kaydırma animasyonu
+        });
+    }
+</script>
+<script>
+    // Header elementini al
+    const header = document.querySelector('header');
+    
+    // Pencere kaydırıldığında header'a 'scrolled' sınıfını ekler/kaldırır
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 0) {
+            header.classList.add('scrolled');
+        } else {
+            header.classList.remove('scrolled');
+        }
+    });
+</script>
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const toggleBtn = document.getElementById('theme-toggle');
+        const body = document.body;
+
+        // 1. Kaydedilmiş tercihi yükle
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            body.classList.add('dark-mode');
+            toggleBtn.textContent = '☀️'; // Buton ikonunu Güneş yap
+        } else {
+            toggleBtn.textContent = '🌙'; // Buton ikonunu Ay yap
+        }
+
+        // 2. Buton tıklama olayını dinle
+        toggleBtn.addEventListener('click', () => {
+            if (body.classList.contains('dark-mode')) {
+                // Aydınlık moda geçiş
+                body.classList.remove('dark-mode');
+                localStorage.setItem('theme', 'light');
+                toggleBtn.textContent = '🌙';
+            } else {
+                // Karanlık moda geçiş
+                body.classList.add('dark-mode');
+                localStorage.setItem('theme', 'dark');
+                toggleBtn.textContent = '☀️';
+            }
+        });
+    });
+</script>
+<button onclick="topFunction()" id="backToTopBtn" title="Sayfa Başına Dön">
+    <i class="fas fa-arrow-up"></i> 
+</button>
+    <footer>
+        © 2025 İrem Ekinci - GMT458 Web GIS Assignment
+    </footer>
+
+</body>
+</html>
