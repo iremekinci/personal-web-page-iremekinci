@@ -1,3 +1,5 @@
+Link:https://iremekinci.github.io/personal-web-page_iremekinci/
+Link:https://github.com/iremekinci/personal-web-page_iremekinci
 📍 Personal Web Page – İrem Ekinci
 
 This is a personal website created as part of the GMT458 Web GIS course assignment.
@@ -42,3 +44,4 @@ Debugging OpenLayers layer problems.
 Writing modern, consistent CSS.
 
 Optimizing JavaScript for event handling.
+
